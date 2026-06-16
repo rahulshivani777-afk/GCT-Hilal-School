@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GCT Hilal School Mithi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0B2545;
+      --blue:   #1A5CA8;
+      --sky:    #3A8FD9;
+      --accent: #F0C040;
+      --white:  #FFFFFF;
+      --offwhite: #F4F8FD;
+      --text:   #1C2B3A;
+      --muted:  #607D9A;
+      --border: #D0E2F5;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); }
+
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    .nav-brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+    .nav-logo {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--navy);
+    }
+    .nav-title { color: var(--white); font-weight: 600; font-size: .95rem; line-height: 1.25; }
+    .nav-title span { display: block; font-size: .7rem; font-weight: 400; color: #93B8D8; }
+    .nav-links { display: flex; gap: .25rem; }
+    .nav-links a {
+      color: #C5DCEF; text-decoration: none; font-size: .82rem; font-weight: 500;
+      padding: .4rem .75rem; border-radius: 6px; transition: background .2s, color .2s;
+    }
+    .nav-links a:hover { background: var(--blue); color: var(--white); }
+    .nav-burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav-burger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+    .mobile-menu { display: none; flex-direction: column; background: var(--navy); padding: 1rem 2rem 1.5rem; gap: .25rem; }
+    .mobile-menu a { color: #C5DCEF; text-decoration: none; font-size: .9rem; padding: .6rem 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+    @media(max-width:768px){
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .mobile-menu.open { display: flex; }
+    }
+
+    /* ── HERO ────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--sky) 100%);
+      color: var(--white); text-align: center; padding: 5rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-block; background: rgba(240,192,64,.2); color: var(--accent);
+      border: 1px solid rgba(240,192,64,.4); font-size: .75rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; padding: .35rem 1rem; border-radius: 20px; margin-bottom: 1.5rem;
+    }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.15; margin-bottom: .75rem; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size: 1.05rem; color: #B8D4EC; max-width: 560px; margin: 0 auto 2rem; line-height: 1.7; }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.75rem; border-radius: 8px; font-size: .9rem; font-weight: 600; text-decoration: none; transition: transform .15s, box-shadow .15s; cursor: pointer; border: none; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+    .btn-primary { background: var(--accent); color: var(--navy); }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.4); }
+    .btn-outline:hover { background: rgba(255,255,255,.1); }
+
+    /* ── STATS BAR ───────────────────────────────── */
+    .stats-bar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 0;
+      box-shadow: 0 4px 16px rgba(11,37,69,.08);
+    }
+    .stat {
+      flex: 1; min-width: 140px; text-align: center; padding: 1.5rem 1rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--blue); }
+    .stat-lbl { font-size: .75rem; color: var(--muted); font-weight: 500; margin-top: .1rem; }
+
+    /* ── SECTION COMMONS ─────────────────────────── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: 3rem; }
+    .eyebrow { font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--sky); margin-bottom: .6rem; }
+    .section-head h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--navy); }
+    .section-head p { color: var(--muted); margin-top: .6rem; font-size: .95rem; max-width: 520px; margin-inline: auto; }
+    .divider { width: 48px; height: 3px; background: var(--accent); border-radius: 2px; margin: .75rem auto 0; }
+
+    /* ── ANNOUNCEMENTS ───────────────────────────── */
+    #announcements { background: var(--offwhite); }
+    .announce-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+    .announce-card {
+      background: var(--white); border-radius: 12px; border: 1px solid var(--border);
+      padding: 1.5rem; display: flex; gap: 1rem; align-items: flex-start;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .announce-card:hover { box-shadow: 0 8px 24px rgba(26,92,168,.12); transform: translateY(-3px); }
+    .announce-icon {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    }
+    .icon-blue { background: #DBEAFE; }
+    .icon-green { background: #DCFCE7; }
+    .icon-yellow { background: #FEF9C3; }
+    .icon-red { background: #FFE4E6; }
+    .announce-body h3 { font-size: .95rem; font-weight: 600; color: var(--navy); margin-bottom: .3rem; }
+    .announce-body p { font-size: .83rem; color: var(--muted); line-height: 1.55; }
+    .announce-date { font-size: .72rem; color: var(--sky); font-weight: 600; margin-top: .5rem; }
+
+    /* ── RESULTS ─────────────────────────────────── */
+    #results { background: var(--white); }
+    .result-tabs { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+    .tab-btn {
+      padding: .5rem 1.25rem; border-radius: 25px; border: 2px solid var(--border);
+      background: var(--white); color: var(--muted); font-size: .85rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .tab-btn.active, .tab-btn:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .result-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    thead { background: var(--navy); color: var(--white); }
+    thead th { padding: .9rem 1rem; text-align: left; font-weight: 600; font-size: .8rem; letter-spacing: .04em; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+    tbody tr:hover { background: #F0F7FF; }
+    tbody td { padding: .85rem 1rem; color: var(--text); }
+    .grade { display: inline-block; padding: .2rem .6rem; border-radius: 5px; font-size: .78rem; font-weight: 700; }
+    .grade-a { background: #DCFCE7; color: #166534; }
+    .grade-b { background: #DBEAFE; color: #1D4ED8; }
+    .grade-c { background: #FEF9C3; color: #854D0E; }
+    .rank-badge { font-weight: 700; color: var(--blue); }
+    .result-note { text-align: center; margin-top: 1.25rem; font-size: .83rem; color: var(--muted); }
+
+    /* ── ADMISSION ───────────────────────────────── */
+    #admission { background: var(--offwhite); }
+    .admission-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    @media(max-width:700px){ .admission-wrap { grid-template-columns: 1fr; } }
+    .admission-info h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 1rem; }
+    .admission-info p { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 1.25rem; }
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .info-list li { display: flex; gap: .75rem; font-size: .88rem; color: var(--text); }
+    .info-list li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+    .form-card { background: var(--white); border-radius: 14px; border: 1px solid var(--border); padding: 2rem; box-shadow: 0 4px 20px rgba(11,37,69,.07); }
+    .form-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 1.25rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: .8rem; font-weight: 600; color: var(--navy); margin-bottom: .35rem; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: .65rem .9rem; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: .88rem; font-family: inherit; color: var(--text);
+      transition: border-color .2s, box-shadow .2s; outline: none; background: var(--white);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,92,168,.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .submit-btn {
+      width: 100%; background: var(--blue); color: var(--white); border: none;
+      padding: .85rem; border-radius: 8px; font-size: .95rem; font-weight: 600;
+      cursor: pointer; transition: background .2s, transform .15s;
+      margin-top: .5rem; font-family: inherit;
+    }
+    .submit-btn:hover { background: var(--navy); transform: translateY(-1px); }
+    .form-success { display: none; text-align: center; padding: 2rem 1rem; }
+    .form-success .check { font-size: 3rem; margin-bottom: .75rem; }
+    .form-success h4 { color: var(--navy); font-size: 1.1rem; margin-bottom: .4rem; }
+    .form-success p { color: var(--muted); font-size: .88rem; }
+
+    /* ── TEACHERS ────────────────────────────────── */
+    #teachers { background: var(--white); }
+    .teachers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    .teacher-card {
+      background: var(--offwhite); border-radius: 14px; border: 1px solid var(--border);
+      text-align: center; padding: 2rem 1.25rem; transition: box-shadow .2s, transform .2s;
+    }
+    .teacher-card:hover { box-shadow: 0 8px 28px rgba(26,92,168,.13); transform: translateY(-4px); }
+    .teacher-avatar {
+      width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif;
+      color: var(--white); background: linear-gradient(135deg, var(--blue), var(--sky));
+      border: 3px solid var(--white); box-shadow: 0 4px 12px rgba(26,92,168,.2);
+    }
+    .teacher-name { font-weight: 700; font-size: .95rem; color: var(--navy); }
+    .teacher-sub { font-size: .8rem; color: var(--sky); font-weight: 600; margin: .25rem 0 .4rem; }
+    .teacher-qual { font-size: .78rem; color: var(--muted); }
+
+    /* ── GALLERY ─────────────────────────────────── */
+    #gallery { background: var(--offwhite); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+    .gallery-item {
+      border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;
+      position: relative; cursor: pointer; background: var(--border);
+    }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .5rem; color: var(--muted); font-size: .8rem;
+      background: linear-gradient(135deg, #EAF3FC 0%, #D0E5F7 100%);
+      transition: transform .25s;
+    }
+    .gallery-item:hover .gallery-placeholder { transform: scale(1.04); }
+    .gallery-placeholder .gallery-icon { font-size: 2.2rem; }
+    .gallery-placeholder span { font-weight: 500; }
+
+    /* ── CONTACT ─────────────────────────────────── */
+    #contact { background: var(--navy); color: var(--white); }
+    #contact .section-head h2 { color: var(--white); }
+    #contact .divider { background: var(--accent); }
+    #contact .eyebrow { color: var(--accent); }
+    #contact .section-head p { color: #93B8D8; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    .contact-card {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px; padding: 1.5rem; text-align: center;
+      transition: background .2s;
+    }
+    .contact-card:hover { background: rgba(255,255,255,.12); }
+    .contact-card .icon { font-size: 2rem; margin-bottom: .75rem; }
+    .contact-card h4 { font-size: .85rem; font-weight: 600; color: var(--accent); margin-bottom: .4rem; letter-spacing: .05em; text-transform: uppercase; }
+    .contact-card p { font-size: .88rem; color: #B8D4EC; line-height: 1.55; }
+    .contact-card a { color: #7DC4F0; text-decoration: none; }
+    .contact-card a:hover { color: var(--white); }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: #060F1C; color: #607D9A; text-align: center;
+      padding: 1.75rem 2rem; font-size: .8rem; line-height: 1.6;
+    }
+    footer strong { color: #93B8D8; }
+    footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: .75rem; flex-wrap: wrap; }
+    footer .footer-links a { color: #607D9A; text-decoration: none; transition: color .2s; }
+    footer .footer-links a:hover { color: var(--accent); }
+
+    /* ── BACK TO TOP ─────────────────────────────── */
+    #btt {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      width: 44px; height: 44px; border-radius: 50%; background: var(--blue);
+      color: var(--white); border: none; font-size: 1.1rem; cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(26,92,168,.35); transition: background .2s;
+    }
+    #btt.show { display: flex; }
+    #btt:hover { background: var(--navy); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-brand">
+    <div class="nav-logo">GH</div>
+    <div class="nav-title">
+      GCT Hilal School
+      <span>Mithi, Tharparkar</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#announcements">Announcements</a>
+    <a href="#results">Results</a>
+    <a href="#admission">Admission</a>
+    <a href="#teachers">Teachers</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="nav-burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#announcements" onclick="closeMobile()">📢 Announcements</a>
+  <a href="#results" onclick="closeMobile()">📊 Results</a>
+  <a href="#admission" onclick="closeMobile()">📝 Admission</a>
+  <a href="#teachers" onclick="closeMobile()">👩‍🏫 Teachers</a>
+  <a href="#gallery" onclick="closeMobile()">🖼️ Gallery</a>
+  <a href="#contact" onclick="closeMobile()">📞 Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-badge">🏫 Est. — Mithi, Tharparkar</div>
+  <h1>Welcome to<br><span>GCT Hilal School</span></h1>
+  <p>Nurturing bright minds with quality education, strong values, and a commitment to excellence — right here in the heart of Mithi.</p>
+  <div class="hero-btns">
+    <a href="#admission" class="btn btn-primary">Apply for Admission</a>
+    <a href="#results" class="btn btn-outline">View Results</a>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">500+</div><div class="stat-lbl">Students Enrolled</div></div>
+  <div class="stat"><div class="stat-num">30+</div><div class="stat-lbl">Qualified Teachers</div></div>
+  <div class="stat"><div class="stat-num">K–12</div><div class="stat-lbl">Classes Offered</div></div>
+  <div class="stat"><div class="stat-num">98%</div><div class="stat-lbl">Pass Rate</div></div>
+</div>
+
+<!-- ANNOUNCEMENTS -->
+<section id="announcements">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Latest Updates</div>
+      <h2>Announcements</h2>
+      <div class="divider"></div>
+      <p>Stay informed with the latest news, notices, and events from GCT Hilal School.</p>
+    </div>
+    <div class="announce-grid">
+      <div class="announce-card">
+        <div class="announce-icon icon-yellow">📋</div>
+        <div class="announce-body">
+          <h3>Annual Examinations 2024–25</h3>
+          <p>Final exams for all classes will commence from 10th June 2025. Students must carry their admit cards.</p>
+          <div class="announce-date">📅 Posted: 25 May 2025</div>
+        </div>
+      </div>
+      <div class="announce-card">
+        <div class="announce-icon icon-blue">🎓</div>
+        <div class="announce-body">
+          <h3>Admission Open — Session 2025–26</h3>
+          <p>Admissions are now open for all classes from Nursery to Class 10. Last date to apply: 30th June 2025.</p>
+          <div class="announce-date">📅 Posted: 1 May 2025</div>
+        </div>
+      </div>
+      <div class="announce-card">
+        <div class="announce-icon icon-green">🏆</div>
+        <div class="announce-body">
+          <h3>Prize Distribution Ceremony</h3>
+          <p>Annual Prize Distribution will be held on 15th June 2025. Parents are cordially invited.</p>
+          <div class="announce-date">📅 Posted: 20 May 2025</div>
+        </div>
+      </div>
+      <div class="announce-card">
+        <div class="announce-icon icon-red">🚨</div>
+        <div class="announce-body">
+          <h3>School Holiday — Eid Ul Adha</h3>
+          <p>School will remain closed from 6th to 12th June 2025 for Eid ul Adha holidays. Classes resume 13th June.</p>
+          <div class="announce-date">📅 Posted: 28 Apr 2025</div>
+        </div>
+      </div>
+      <div class="announce-card">
+        <div class="announce-icon icon-blue">📚</div>
+        <div class="announce-body">
+          <h3>New Library Books Available</h3>
+          <p>Over 200 new books have been added to the school library. Students can borrow from Monday onwards.</p>
+          <div class="announce-date">📅 Posted: 15 Apr 2025</div>
+        </div>
+      </div>
+      <div class="announce-card">
+        <div class="announce-icon icon-yellow">⚽</div>
+        <div class="announce-body">
+          <h3>Sports Week 2025</h3>
+          <p>Annual Sports Week will be held from 20th to 24th May 2025. All students are encouraged to participate.</p>
+          <div class="announce-date">📅 Posted: 10 Apr 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Academic Performance</div>
+      <h2>Examination Results</h2>
+      <div class="divider"></div>
+      <p>Mid-term and annual results for the current academic session.</p>
+    </div>
+    <div class="result-tabs">
+      <button class="tab-btn active" onclick="showResult('annual')">Annual Exam 2024</button>
+      <button class="tab-btn" onclick="showResult('midterm')">Mid-Term 2024</button>
+      <button class="tab-btn" onclick="showResult('monthly')">Monthly Test</button>
+    </div>
+    <div class="result-table-wrap">
+      <table id="annual">
+        <thead><tr><th>Roll No.</th><th>Student Name</th><th>Class</th><th>Marks / 600</th><th>Grade</th><th>Rank</th></tr></thead>
+        <tbody>
+          <tr><td>101</td><td>Ali Hassan Soomro</td><td>10-A</td><td>572</td><td><span class="grade grade-a">A+</span></td><td class="rank-badge">🥇 1st</td></tr>
+          <tr><td>102</td><td>Fatima Bibi Rind</td><td>10-A</td><td>558</td><td><span class="grade grade-a">A+</span></td><td class="rank-badge">🥈 2nd</td></tr>
+          <tr><td>103</td><td>Muhammad Usman</td><td>10-B</td><td>541</td><td><span class="grade grade-a">A</span></td><td class="rank-badge">🥉 3rd</td></tr>
+          <tr><td>104</td><td>Ayesha Khatoon</td><td>9-A</td><td>525</td><td><span class="grade grade-a">A</span></td><td class="rank-badge">4th</td></tr>
+          <tr><td>105</td><td>Zain ul Abideen</td><td>9-B</td><td>498</td><td><span class="grade grade-b">B+</span></td><td class="rank-badge">5th</td></tr>
+          <tr><td>106</td><td>Sana Parveen</td><td>8-A</td><td>483</td><td><span class="grade grade-b">B+</span></td><td class="rank-badge">6th</td></tr>
+          <tr><td>107</td><td>Ibrahim Leghari</td><td>8-B</td><td>461</td><td><span class="grade grade-b">B</span></td><td class="rank-badge">7th</td></tr>
+        </tbody>
+      </table>
+      <table id="midterm" style="display:none">
+        <thead><tr><th>Roll No.</th><th>Student Name</th><th>Class</th><th>Marks / 300</th><th>Grade</th><th>Rank</th></tr></thead>
+        <tbody>
+          <tr><td>101</td><td>Ali Hassan Soomro</td><td>10-A</td><td>289</td><td><span class="grade grade-a">A+</span></td><td class="rank-badge">🥇 1st</td></tr>
+          <tr><td>103</td><td>Muhammad Usman</td><td>10-B</td><td>275</td><td><span class="grade grade-a">A+</span></td><td class="rank-badge">🥈 2nd</td></tr>
+          <tr><td>102</td><td>Fatima Bibi Rind</td><td>10-A</td><td>268</td><td><span class="grade grade-a">A</span></td><td class="rank-badge">🥉 3rd</td></tr>
+          <tr><td>105</td><td>Zain ul Abideen</td><td>9-B</td><td>251</td><td><span class="grade grade-b">B+</span></td><td class="rank-badge">4th</td></tr>
+        </tbody>
+      </table>
+      <table id="monthly" style="display:none">
+        <thead><tr><th>Roll No.</th><th>Student Name</th><th>Class</th><th>Marks / 100</th><th>Grade</th><th>Rank</th></tr></thead>
+        <tbody>
+          <tr><td>104</td><td>Ayesha Khatoon</td><td>9-A</td><td>97</td><td><span class="grade grade-a">A+</span></td><td class="rank-badge">🥇 1st</td></tr>
+          <tr><td>101</td><td>Ali Hassan Soomro</td><td>10-A</td><td>94</td><td><span class="grade grade-a">A+</span></td><td class="rank-badge">🥈 2nd</td></tr>
+          <tr><td>106</td><td>Sana Parveen</td><td>8-A</td><td>91</td><td><span class="grade grade-a">A</span></td><td class="rank-badge">🥉 3rd</td></tr>
+          <tr><td>107</td><td>Ibrahim Leghari</td><td>8-B</td><td>88</td><td><span class="grade grade-b">B+</span></td><td class="rank-badge">4th</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="result-note">📌 These are sample results. Official results will be updated after declaration. Contact school for individual result cards.</p>
+  </div>
+</section>
+
+<!-- ADMISSION -->
+<section id="admission">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Join Our School</div>
+      <h2>Admission 2025–26</h2>
+      <div class="divider"></div>
+      <p>We welcome students from Nursery to Class 10. Fill in the form to begin your journey with us.</p>
+    </div>
+    <div class="admission-wrap">
+      <div class="admission-info">
+        <h3>Why Choose GCT Hilal School?</h3>
+        <p>GCT Hilal School Mithi is committed to providing quality education in a nurturing and disciplined environment. Our experienced faculty ensures each student reaches their full potential.</p>
+        <ul class="info-list">
+          <li>Qualified and experienced teaching staff</li>
+          <li>Classes from Nursery to Matric (Class 10)</li>
+          <li>Modern classrooms and learning resources</li>
+          <li>Separate sections for boys and girls</li>
+          <li>Annual sports and co-curricular activities</li>
+          <li>Affordable and transparent fee structure</li>
+          <li>Regular parent-teacher meetings</li>
+          <li>Scholarship for top-performing students</li>
+        </ul>
+        <br/>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-top:.5rem;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.05em;">Important Dates</div>
+          <div style="font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:.4rem;">
+            <div>📅 <strong>Form Available:</strong> 1st May 2025</div>
+            <div>📅 <strong>Last Date:</strong> 30th June 2025</div>
+            <div>📅 <strong>Entry Test:</strong> 5th July 2025</div>
+            <div>📅 <strong>Session Starts:</strong> 15th August 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-card">
+        <h3>Admission Enquiry Form</h3>
+        <div id="admissionForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student's First Name *</label>
+              <input type="text" placeholder="e.g. Ali" id="fname"/>
+            </div>
+            <div class="form-group">
+              <label>Last Name *</label>
+              <input type="text" placeholder="e.g. Hassan" id="lname"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Father's Name *</label>
+            <input type="text" placeholder="Father's full name" id="father"/>
+          </div>
+          <div class="form-group">
+            <label>Class Applying For *</label>
+            <select id="classApply">
+              <option value="">Select Class</option>
+              <option>Nursery</option><option>KG</option><option>Class 1</option>
+              <option>Class 2</option><option>Class 3</option><option>Class 4</option>
+              <option>Class 5</option><option>Class 6</option><option>Class 7</option>
+              <option>Class 8</option><option>Class 9</option><option>Class 10</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input type="date" id="dob"/>
+            </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <select id="gender">
+                <option>Male</option><option>Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Parent / Guardian Contact *</label>
+            <input type="tel" placeholder="e.g. 03001234567" id="phone"/>
+          </div>
+          <div class="form-group">
+            <label>Address / Area</label>
+            <textarea placeholder="Your area in Mithi / Village name..." id="address"></textarea>
+          </div>
+          <button class="submit-btn" onclick="submitForm()">Submit Admission Enquiry →</button>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="check">✅</div>
+          <h4>Enquiry Submitted!</h4>
+          <p>Thank you! We will contact you within 1–2 working days to confirm the admission process.</p>
+          <br/>
+          <button class="submit-btn" style="max-width:200px;margin:0 auto;display:block" onclick="resetForm()">Submit Another</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHERS -->
+<section id="teachers">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Our Faculty</div>
+      <h2>Meet Our Teachers</h2>
+      <div class="divider"></div>
+      <p>Dedicated educators committed to the academic and personal growth of every student.</p>
+    </div>
+    <div class="teachers-grid">
+      <div class="teacher-card">
+        <div class="teacher-avatar">AA</div>
+        <div class="teacher-name">Mr. Abdul Aziz</div>
+        <div class="teacher-sub">Principal</div>
+        <div class="teacher-qual">M.Ed — Education Administration</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">FR</div>
+        <div class="teacher-name">Ms. Fatima Rind</div>
+        <div class="teacher-sub">Mathematics</div>
+        <div class="teacher-qual">M.Sc Mathematics</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">ZA</div>
+        <div class="teacher-name">Mr. Zafar Ahmed</div>
+        <div class="teacher-sub">Science</div>
+        <div class="teacher-qual">M.Sc Physics & Chemistry</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">NK</div>
+        <div class="teacher-name">Ms. Nadia Khatoon</div>
+        <div class="teacher-sub">English Language</div>
+        <div class="teacher-qual">MA English Literature</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">IM</div>
+        <div class="teacher-name">Mr. Imran Meghwar</div>
+        <div class="teacher-sub">Urdu & Sindhi</div>
+        <div class="teacher-qual">MA Sindhi — University of Sindh</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">RS</div>
+        <div class="teacher-name">Ms. Rukhsana Soomro</div>
+        <div class="teacher-sub">Social Studies</div>
+        <div class="teacher-qual">MA Pakistan Studies</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">HB</div>
+        <div class="teacher-name">Mr. Hamid Balouch</div>
+        <div class="teacher-sub">Islamiat</div>
+        <div class="teacher-qual">MA Islamic Studies</div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">SP</div>
+        <div class="teacher-name">Ms. Sunita Parmar</div>
+        <div class="teacher-sub">Primary (Nursery–3)</div>
+        <div class="teacher-qual">B.Ed Early Childhood</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">School Life</div>
+      <h2>Photo Gallery</h2>
+      <div class="divider"></div>
+      <p>Moments from classrooms, events, and campus life at GCT Hilal School.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">🏫</span><span>School Building</span></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">🎓</span><span>Prize Distribution 2024</span></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">⚽</span><span>Sports Week 2024</span></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">📚</span><span>Library</span></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">🔬</span><span>Science Lab</span></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">🎨</span><span>Art Competition 2024</span></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">🌳</span><span>School Ground</span></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span class="gallery-icon">🏆</span><span>Trophy Collection</span></div></div>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;font-size:.83rem;color:var(--muted);">📸 Upload your school photos to replace these placeholders.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Get in Touch</div>
+      <h2>Contact Us</h2>
+      <div class="divider"></div>
+      <p>We'd love to hear from you. Reach out for admissions, results, or any queries.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="icon">📍</div>
+        <h4>Address</h4>
+        <p>GCT Hilal School<br>Mithi, District Tharparkar<br>Sindh, Pakistan</p>
+      </div>
+      <div class="contact-card">
+        <div class="icon">📞</div>
+        <h4>Phone</h4>
+        <p><a href="tel:+922323000000">0232-300000</a><br><a href="tel:+923001234567">0300-1234567</a><br>(Mon–Sat, 8am–2pm)</p>
+      </div>
+      <div class="contact-card">
+        <div class="icon">📧</div>
+        <h4>Email</h4>
+        <p><a href="mailto:info@gcthilalschool.edu.pk">info@gcthilalschool.edu.pk</a><br>admissions@gcthilalschool.edu.pk</p>
+      </div>
+      <div class="contact-card">
+        <div class="icon">🕐</div>
+        <h4>School Hours</h4>
+        <p>Monday – Saturday<br>7:30 AM — 1:30 PM<br>Office: 8:00 AM — 2:30 PM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="#announcements">Announcements</a>
+    <a href="#results">Results</a>
+    <a href="#admission">Admission</a>
+    <a href="#teachers">Teachers</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <strong>GCT Hilal School Mithi</strong> — Mithi, Tharparkar, Sindh, Pakistan<br>
+  © 2025 GCT Hilal School. All rights reserved.
+</footer>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+  // Mobile menu
+  document.getElementById('burgerBtn').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // Smooth scroll fix for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+
+  // Result tabs
+  function showResult(id) {
+    ['annual','midterm','monthly'].forEach(t => {
+      document.getElementById(t).style.display = t === id ? '' : 'none';
+    });
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', ['annual','midterm','monthly'][i] === id);
+    });
+  }
+
+  // Admission form
+  function submitForm() {
+    const fname = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const cls = document.getElementById('classApply').value;
+    if (!fname || !phone || !cls) { alert('Please fill in required fields (Name, Class, Phone).'); return; }
+    document.getElementById('admissionForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+  function resetForm() {
+    document.getElementById('fname').value='';
+    document.getElementById('lname').value='';
+    document.getElementById('father').value='';
+    document.getElementById('phone').value='';
+    document.getElementById('address').value='';
+    document.getElementById('classApply').selectedIndex=0;
+    document.getElementById('admissionForm').style.display = '';
+    document.getElementById('formSuccess').style.display = 'none';
+  }
+
+  // Back to top
+  window.addEventListener('scroll', () => {
+    document.getElementById('btt').classList.toggle('show', window.scrollY > 400);
+  });
+</script>
+</body>
+</html>
